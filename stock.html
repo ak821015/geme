@@ -3,17 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>AK Ultra - إدارة المخزن</title>
+    <title>نظام إدارة المخزون - قطع الغيار والأجهزة</title>
     
     <!-- Fonts and Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
             --primary: #2563eb;
             --primary-light: #3b82f6;
@@ -33,32 +37,41 @@
             --gray-700: #334155;
             --gray-800: #1e293b;
             --gray-900: #0f172a;
+            
             --background: var(--gray-50);
             --surface: #ffffff;
             --surface-hover: var(--gray-100);
+            
             --text-primary: var(--gray-900);
             --text-secondary: var(--gray-700);
             --text-muted: var(--gray-500);
+            
             --border-light: var(--gray-200);
+            --border-color: var(--gray-300);
+            
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
             --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            
             --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
             --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            
             --radius-sm: 0.375rem;
             --radius-md: 0.5rem;
             --radius-lg: 0.75rem;
             --radius-xl: 1rem;
             --radius-full: 9999px;
+            
             --font-size-xs: 0.75rem;
             --font-size-sm: 0.875rem;
             --font-size-base: 1rem;
             --font-size-lg: 1.125rem;
             --font-size-xl: 1.375rem;
             --font-size-2xl: 1.75rem;
+            --font-size-3xl: 2.25rem;
         }
-        
+
         [data-theme="dark"] {
             --background: var(--gray-900);
             --surface: var(--gray-800);
@@ -67,8 +80,9 @@
             --text-secondary: var(--gray-300);
             --text-muted: var(--gray-400);
             --border-light: var(--gray-700);
+            --border-color: var(--gray-600);
         }
-        
+
         body {
             font-family: 'Cairo', sans-serif;
             background: var(--background);
@@ -76,89 +90,17 @@
             line-height: 1.6;
             min-height: 100vh;
             transition: background-color var(--transition-base);
-            font-size: var(--font-size-sm);
         }
-        
-        .app-container { display: flex; min-height: 100vh; }
-        
-        .sidebar {
-            width: 280px;
-            background: var(--surface);
-            border-left: 1px solid var(--border-light);
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
             padding: 1.5rem;
-            position: fixed;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            overflow-y: auto;
-            transition: transform var(--transition-base);
-            z-index: 50;
-            box-shadow: var(--shadow-lg);
         }
-        
-        .sidebar.collapsed { transform: translateX(280px); }
-        
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border-light);
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: var(--radius-lg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.25rem;
-        }
-        
-        .logo-text h2 { font-size: var(--font-size-lg); font-weight: 700; color: var(--text-primary); }
-        .logo-text p { font-size: var(--font-size-xs); color: var(--text-muted); }
-        
-        .nav-menu { list-style: none; }
-        .nav-item { margin-bottom: 0.5rem; }
-        
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.75rem 1rem;
-            color: var(--text-secondary);
-            text-decoration: none;
-            border-radius: var(--radius-md);
-            transition: all var(--transition-fast);
-            font-weight: 500;
-        }
-        
-        .nav-link i { width: 20px; font-size: 1.1rem; }
-        .nav-link:hover { background: var(--surface-hover); color: var(--primary); }
-        .nav-link.active { background: var(--primary); color: white; }
-        
-        .main-content {
-            flex: 1;
-            margin-right: 280px;
-            padding: 1.5rem;
-            transition: margin-right var(--transition-base);
-        }
-        
-        .main-content.expanded { margin-right: 0; }
-        
-        .top-bar {
+
+        .header {
             background: var(--surface);
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius-xl);
             padding: 1rem 1.5rem;
             margin-bottom: 1.5rem;
             display: flex;
@@ -166,26 +108,46 @@
             justify-content: space-between;
             box-shadow: var(--shadow-sm);
             border: 1px solid var(--border-light);
+            flex-wrap: wrap;
+            gap: 1rem;
         }
-        
-        .menu-toggle { display: none; background: none; border: none; color: var(--text-primary); font-size: 1.5rem; cursor: pointer; }
-        .page-title { font-size: var(--font-size-xl); font-weight: 700; color: var(--text-primary); }
-        
-        .top-bar-actions { display: flex; align-items: center; gap: 1rem; }
-        
-        .theme-toggle {
-            background: var(--surface-hover);
-            border: none;
-            color: var(--text-primary);
-            width: 40px;
-            height: 40px;
-            border-radius: var(--radius-full);
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-lg);
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
+            color: white;
+            font-size: 1.5rem;
         }
-        
+
+        .logo-text h1 {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .logo-text p {
+            font-size: var(--font-size-xs);
+            color: var(--text-muted);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
         .btn {
             display: inline-flex;
             align-items: center;
@@ -200,120 +162,168 @@
             transition: all var(--transition-fast);
             font-family: 'Cairo', sans-serif;
         }
-        
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: var(--shadow-md); }
-        .btn-success { background: var(--success); color: white; }
-        .btn-success:hover { background: #0d9488; transform: translateY(-1px); }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn-danger:hover { background: #dc2626; transform: translateY(-1px); }
-        .btn-secondary { background: var(--surface-hover); color: var(--text-primary); border: 1px solid var(--border-light); }
-        
-        .section-card {
-            background: var(--surface);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-light);
-            margin-bottom: 1.5rem;
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
         }
-        
-        .section-header {
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--surface-hover);
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-light);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 0.375rem 0.75rem;
+            font-size: var(--font-size-xs);
+        }
+
+        .btn-icon {
+            padding: 0.625rem;
+            border-radius: var(--radius-md);
+        }
+
+        .theme-toggle {
+            background: var(--surface-hover);
+            border: none;
+            color: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        
-        .section-title { font-size: var(--font-size-lg); font-weight: 700; color: var(--text-primary); }
-        
-        .form-group { margin-bottom: 1.5rem; }
-        .form-label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-secondary); font-size: var(--font-size-sm); }
-        
-        .form-control {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 2px solid var(--border-light);
-            border-radius: var(--radius-md);
-            background: var(--surface);
-            color: var(--text-primary);
-            font-family: 'Cairo', sans-serif;
-            font-size: var(--font-size-sm);
+            justify-content: center;
+            cursor: pointer;
             transition: all var(--transition-fast);
         }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-        
-        select.form-control { cursor: pointer; }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-        }
-        
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1rem;
             margin-bottom: 1.5rem;
         }
-        
+
         .stat-card {
             background: var(--surface);
             border-radius: var(--radius-lg);
-            padding: 1rem;
+            padding: 1rem 1.25rem;
             box-shadow: var(--shadow-sm);
             border: 1px solid var(--border-light);
-            text-align: center;
-        }
-        
-        .stat-value { font-size: var(--font-size-2xl); font-weight: 700; color: var(--primary); }
-        .stat-label { font-size: var(--font-size-xs); color: var(--text-muted); }
-        
-        .filters-bar {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 1.5rem;
-            align-items: center;
-        }
-        
-        .filter-group {
             display: flex;
             align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-info h4 {
+            font-size: var(--font-size-xs);
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-number {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .tabs {
+            display: flex;
             gap: 0.5rem;
-            background: var(--surface-hover);
-            padding: 0.25rem;
-            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 0.5rem;
             flex-wrap: wrap;
         }
-        
-        .filter-btn {
+
+        .tab-btn {
             background: none;
             border: none;
-            padding: 0.5rem 1rem;
-            border-radius: var(--radius-md);
+            padding: 0.75rem 1.5rem;
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            color: var(--text-muted);
             cursor: pointer;
-            color: var(--text-secondary);
             transition: all var(--transition-fast);
-            font-size: var(--font-size-xs);
+            border-radius: var(--radius-md);
+            font-family: 'Cairo', sans-serif;
         }
-        
-        .filter-btn.active { background: var(--primary); color: white; }
-        
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: var(--surface-hover);
+            color: var(--text-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .search-section {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-light);
+        }
+
         .search-box {
             position: relative;
-            flex: 1;
-            min-width: 200px;
+            margin-bottom: 1rem;
         }
-        
+
         .search-box i {
             position: absolute;
             right: 1rem;
@@ -321,61 +331,154 @@
             transform: translateY(-50%);
             color: var(--text-muted);
         }
-        
+
         .search-box input {
-            padding-right: 2.5rem;
             width: 100%;
+            padding: 0.875rem 2.5rem 0.875rem 1rem;
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            color: var(--text-primary);
+            font-family: 'Cairo', sans-serif;
+            font-size: var(--font-size-sm);
+            transition: all var(--transition-fast);
         }
-        
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            background: var(--surface);
+            color: var(--text-primary);
+            font-family: 'Cairo', sans-serif;
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
         .items-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.5rem;
+            gap: 1.25rem;
         }
-        
-        .stock-card {
+
+        .item-card {
             background: var(--surface);
             border: 1px solid var(--border-light);
             border-radius: var(--radius-lg);
-            padding: 1.2rem;
-            box-shadow: var(--shadow-sm);
+            padding: 1.25rem;
             transition: all var(--transition-base);
+            cursor: pointer;
             position: relative;
         }
-        
-        .stock-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--primary);
+
+        .item-card:hover {
+            transform: translateY(-3px);
             box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
         }
-        
-        .stock-card.sold {
-            opacity: 0.8;
-            border-right: 4px solid var(--success);
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
         }
-        
-        .stock-card .badge {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
+
+        .card-title {
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .card-badge {
             display: inline-flex;
-            align-items: center;
             padding: 0.25rem 0.75rem;
             border-radius: var(--radius-full);
             font-size: var(--font-size-xs);
             font-weight: 500;
         }
-        
-        .badge-success { background: rgba(16, 185, 129, 0.1); color: var(--success); }
-        .badge-warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
-        .badge-info { background: rgba(59, 130, 246, 0.1); color: var(--info); }
-        
-        .stock-card h4 { font-size: var(--font-size-lg); font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary); }
-        .stock-card p { font-size: var(--font-size-sm); color: var(--text-secondary); margin-bottom: 0.25rem; }
-        
-        .profit-positive { color: var(--success); font-weight: 600; }
-        .profit-negative { color: var(--danger); font-weight: 600; }
-        
+
+        .badge-category {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+        }
+
+        .badge-type {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .card-details {
+            margin-top: 0.75rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-light);
+            font-size: var(--font-size-sm);
+        }
+
+        .detail-label {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .detail-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .supplier-info {
+            background: var(--surface-hover);
+            padding: 0.5rem;
+            border-radius: var(--radius-md);
+            margin-top: 0.5rem;
+            font-size: var(--font-size-xs);
+        }
+
+        .related-items {
+            margin-top: 0.75rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .related-tag {
+            background: var(--surface-hover);
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-xs);
+            color: var(--text-secondary);
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            justify-content: flex-end;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -389,27 +492,29 @@
             justify-content: center;
             backdrop-filter: blur(4px);
         }
-        
-        .modal.active { display: flex; }
-        
+
+        .modal.active {
+            display: flex;
+        }
+
         .modal-content {
             background: var(--surface);
             border-radius: var(--radius-xl);
             width: 90%;
-            max-width: 500px;
+            max-width: 600px;
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: var(--shadow-xl);
             animation: modalSlideIn 0.3s ease;
         }
-        
+
         @keyframes modalSlideIn {
             from { transform: translateY(-20px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
-        
+
         .modal-header {
-            padding: 1.5rem;
+            padding: 1.25rem 1.5rem;
             border-bottom: 1px solid var(--border-light);
             display: flex;
             align-items: center;
@@ -417,10 +522,15 @@
             position: sticky;
             top: 0;
             background: var(--surface);
+            z-index: 10;
         }
-        
-        .modal-title { font-size: var(--font-size-lg); font-weight: 700; color: var(--text-primary); }
-        
+
+        .modal-title {
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
         .modal-close {
             background: none;
             border: none;
@@ -429,27 +539,173 @@
             cursor: pointer;
             padding: 0.5rem;
             border-radius: var(--radius-full);
+            transition: all var(--transition-fast);
         }
-        
-        .modal-body { padding: 1.5rem; }
-        .modal-footer {
+
+        .modal-close:hover {
+            background: var(--surface-hover);
+            color: var(--danger);
+        }
+
+        .modal-body {
             padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
             border-top: 1px solid var(--border-light);
             display: flex;
             justify-content: flex-end;
             gap: 0.75rem;
         }
-        
-        .profit-preview {
-            background: var(--surface-hover);
-            padding: 1rem;
-            border-radius: var(--radius-lg);
-            text-align: center;
-            margin-top: 1rem;
-            font-size: var(--font-size-lg);
-            font-weight: 600;
+
+        .form-group {
+            margin-bottom: 1.25rem;
         }
-        
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        .form-label.required::after {
+            content: '*';
+            color: var(--danger);
+            margin-right: 0.25rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            background: var(--surface);
+            color: var(--text-primary);
+            font-family: 'Cairo', sans-serif;
+            font-size: var(--font-size-sm);
+            transition: all var(--transition-fast);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+        }
+
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .parts-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .part-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: background var(--transition-fast);
+        }
+
+        .part-item:hover {
+            background: var(--surface-hover);
+        }
+
+        .part-item input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .part-item label {
+            flex: 1;
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+        }
+
+        .part-category {
+            font-size: var(--font-size-xs);
+            color: var(--text-muted);
+        }
+
+        .device-part-card {
+            background: var(--surface-hover);
+            border-radius: var(--radius-md);
+            padding: 0.75rem;
+            border: 1px solid var(--border-light);
+        }
+
+        .device-part-name {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            backdrop-filter: blur(4px);
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--surface);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         .toast-container {
             position: fixed;
             bottom: 20px;
@@ -459,7 +715,7 @@
             flex-direction: column;
             gap: 10px;
         }
-        
+
         .toast {
             min-width: 280px;
             padding: 12px 20px;
@@ -472,646 +728,794 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            font-weight: 500;
         }
-        
+
         .toast.success { border-right-color: var(--success); }
         .toast.error { border-right-color: var(--danger); }
-        
+        .toast.warning { border-right-color: var(--warning); }
+
         @keyframes toastSlideIn {
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
-        
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-        }
-        
-        .loading-overlay.active { display: flex; }
-        
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--surface);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin { to { transform: rotate(360deg); } }
-        
+
         .empty-state {
             text-align: center;
             padding: 3rem;
             color: var(--text-muted);
         }
-        
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
         @media (max-width: 768px) {
-            .sidebar { transform: translateX(280px); z-index: 100; }
-            .sidebar.active { transform: translateX(0); }
-            .main-content { margin-right: 0; }
-            .menu-toggle { display: block; }
-            .items-grid { grid-template-columns: 1fr; }
+            .container {
+                padding: 1rem;
+            }
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .tabs {
+                flex-direction: column;
+            }
+            .tab-btn {
+                width: 100%;
+            }
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        .inline-supplier-add {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .inline-supplier-add input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            background: var(--surface);
+            color: var(--text-primary);
+        }
+
+        .text-small {
+            font-size: var(--font-size-xs);
         }
     </style>
 </head>
 <body>
-    <div class="toast-container" id="toastContainer"></div>
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-spinner"></div>
+
+<div class="toast-container" id="toastContainer"></div>
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+</div>
+
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon"><i class="fas fa-boxes"></i></div>
+            <div class="logo-text">
+                <h1>نظام إدارة المخزون</h1>
+                <p>قطع الغيار والأجهزة - مركز جيمي</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="btn btn-primary" onclick="openAddItemModal()">
+                <i class="fas fa-plus"></i> إضافة قطعة
+            </button>
+            <button class="btn btn-success" onclick="openAddDeviceModal()">
+                <i class="fas fa-microchip"></i> إضافة جهاز
+            </button>
+            <button class="btn btn-secondary" onclick="openSuppliersModal()">
+                <i class="fas fa-truck"></i> الموردين
+            </button>
+            <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">
+                <i class="fas fa-arrow-left"></i> العودة للرئيسية
+            </button>
+        </div>
     </div>
 
-    <div class="app-container">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <div class="logo-icon"><i class="fas fa-tools"></i></div>
-                    <div class="logo-text"><h2>AK Ultra</h2><p>مركز جيمي</p></div>
-                </div>
-                <button class="theme-toggle" onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
+    <div class="stats-grid" id="statsGrid">
+        <div class="stat-card">
+            <div class="stat-info">
+                <h4>إجمالي القطع</h4>
+                <div class="stat-number" id="totalItems">0</div>
             </div>
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="fas fa-chart-pie"></i><span>لوحة التحكم</span></a></li>
-                <li class="nav-item"><a href="dashboard.html#devices" class="nav-link"><i class="fas fa-mobile-alt"></i><span>الأجهزة</span></a></li>
-                <li class="nav-item"><a href="stock.html" class="nav-link active"><i class="fas fa-boxes"></i><span>المخزن</span></a></li>
-                <li class="nav-item"><a href="dashboard.html#technicians" class="nav-link"><i class="fas fa-users"></i><span>الفنيين</span></a></li>
-                <li class="nav-item"><a href="dashboard.html#profits" class="nav-link"><i class="fas fa-chart-line"></i><span>الأرباح</span></a></li>
-                <li class="nav-item"><a href="dashboard.html#alion" class="nav-link"><i class="fas fa-robot"></i><span>Alion</span></a></li>
-            </ul>
-            <div style="margin-top: auto; padding-top: 2rem;">
-                <div class="user-menu" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 1rem; background: var(--surface-hover); border-radius: var(--radius-full);">
-                    <div class="user-avatar" id="userAvatar" style="width: 32px; height: 32px; background: var(--primary); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;"></div>
-                    <div class="user-info">
-                        <div class="user-name" id="userNameDisplay"></div>
-                        <div class="user-role">المستخدم الحالي</div>
-                    </div>
-                </div>
+            <div class="stat-icon"><i class="fas fa-microchip"></i></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-info">
+                <h4>إجمالي الأجهزة</h4>
+                <div class="stat-number" id="totalDevices">0</div>
             </div>
-            <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-light); text-align: center;">
-                <p style="font-size: var(--font-size-xs); color: var(--text-muted); margin-bottom: 0.5rem;">تم التطوير بواسطة</p>
-                <a href="https://www.facebook.com/ali.khaled.244644" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--primary); text-decoration: none; font-weight: 600; font-size: var(--font-size-sm);">
-                    <i class="fab fa-facebook" style="font-size: 1.2rem;"></i>
-                    ALI KHALED
-                </a>
-                <p style="font-size: var(--font-size-xs); color: var(--text-muted); margin-top: 0.5rem;">© 2026 جميع الحقوق محفوظة</p>
+            <div class="stat-icon"><i class="fas fa-mobile-alt"></i></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-info">
+                <h4>إجمالي الموردين</h4>
+                <div class="stat-number" id="totalSuppliers">0</div>
             </div>
-        </aside>
-        
-        <main class="main-content" id="mainContent">
-            <div class="top-bar">
-                <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
-                <h1 class="page-title">📦 إدارة المخزن</h1>
-                <div class="top-bar-actions">
-                    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle"><i class="fas fa-moon"></i></button>
-                    <button class="btn btn-primary" onclick="openAddItemModal()"><i class="fas fa-plus"></i> إضافة قطعة</button>
-                    <button class="btn btn-danger" onclick="openSellModal()"><i class="fas fa-tag"></i> بيع قطعة</button>
-                </div>
+            <div class="stat-icon"><i class="fas fa-truck"></i></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-info">
+                <h4>القطع المرتبطة</h4>
+                <div class="stat-number" id="totalLinkedParts">0</div>
             </div>
-            
-            <div id="pageContainer">
-                <!-- Stats Cards -->
-                <div class="stats-grid" id="statsContainer"></div>
-                
-                <!-- Filters -->
-                <div class="section-card">
-                    <div class="filters-bar">
-                        <div class="filter-group">
-                            <button class="filter-btn active" data-filter="all" onclick="setCategoryFilter('all')">الكل</button>
-                            <button class="filter-btn" data-filter="بطاريات" onclick="setCategoryFilter('بطاريات')">بطاريات</button>
-                            <button class="filter-btn" data-filter="صوتيات" onclick="setCategoryFilter('صوتيات')">صوتيات</button>
-                            <button class="filter-btn" data-filter="شاشات" onclick="setCategoryFilter('شاشات')">شاشات</button>
-                            <button class="filter-btn" data-filter="هوسنجات" onclick="setCategoryFilter('هوسنجات')">هوسنجات</button>
-                            <button class="filter-btn" data-filter="فريمات" onclick="setCategoryFilter('فريمات')">فريمات</button>
-                            <button class="filter-btn" data-filter="كاميرات" onclick="setCategoryFilter('كاميرات')">كاميرات</button>
-                            <button class="filter-btn" data-filter="فلاتات" onclick="setCategoryFilter('فلاتات')">فلاتات</button>
-                        </div>
-                        <div class="filter-group">
-                            <button class="filter-btn" data-status="all" onclick="setStatusFilter('all')">الكل</button>
-                            <button class="filter-btn" data-status="In Stock" onclick="setStatusFilter('In Stock')">متوفر</button>
-                            <button class="filter-btn" data-status="Sold" onclick="setStatusFilter('Sold')">مباع</button>
-                        </div>
-                        
-                        <button class="btn btn-secondary btn-sm" onclick="refreshData()"><i class="fas fa-sync-alt"></i> تحديث</button>
-                    </div>
-                    
-                    <div class="items-grid" id="itemsGrid">
-                        <div class="empty-state">جاري التحميل...</div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-    
-    <!-- Add Item Modal -->
-    <div class="modal" id="addItemModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title"><i class="fas fa-plus"></i> إضافة قطعة جديدة</h3>
-                <button class="modal-close" onclick="closeModal('addItemModal')"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="modal-body">
-                <form id="addItemForm" onsubmit="submitAddItem(event)">
-                    <div class="form-group">
-                        <label class="form-label">القسم *</label>
-                        <select class="form-control" id="itemCategory" required>
-                            <option value="">اختر القسم</option>
-                            <option value="بطاريات">🔋 بطاريات</option>
-                            <option value="صوتيات">🎵 صوتيات</option>
-                            <option value="شاشات">📱 شاشات</option>
-                            <option value="هوسنجات">📱 هوسنجات</option>
-                            <option value="فريمات">🖼️ فريمات</option>
-                            <option value="كاميرات">📷 كاميرات</option>
-                            <option value="فلاتات">⚡ فلاتات</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">نوع القطعة *</label>
-                        <input type="text" class="form-control" id="itemType" required placeholder="مثال: ليثيوم, شاحن, سماعة...">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">اسم القطعة *</label>
-                        <input type="text" class="form-control" id="itemName" required placeholder="الاسم الكامل للقطعة">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">سعر الشراء (السعر الفعلي) *</label>
-                        <input type="number" class="form-control" id="itemCostPrice" required min="0" step="0.01" placeholder="مثال: 50.00">
-                    </div>
-                    <div class="modal-footer" style="padding: 1rem 0 0 0;">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> إضافة القطعة</button>
-                        <button type="button" class="btn btn-secondary" onclick="closeModal('addItemModal')">إلغاء</button>
-                    </div>
-                </form>
-            </div>
+            <div class="stat-icon"><i class="fas fa-link"></i></div>
         </div>
     </div>
-    
-    <!-- Sell Item Modal -->
-    <div class="modal" id="sellModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title"><i class="fas fa-tag"></i> بيع قطعة</h3>
-                <button class="modal-close" onclick="closeModal('sellModal')"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="modal-body">
-                <form id="sellForm" onsubmit="submitSell(event)">
-                    <div class="form-group">
-                        <label class="form-label">اختر القطعة *</label>
-                        <select class="form-control" id="sellItemId" required onchange="updateProfitPreview()">
-                            <option value="">اختر قطعة من المخزن</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">اسم العميل *</label>
-                        <input type="text" class="form-control" id="customerName" required placeholder="أدخل اسم العميل">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">سعر البيع *</label>
-                        <input type="number" class="form-control" id="sellPrice" required min="0" step="0.01" placeholder="أدخل سعر البيع" oninput="updateProfitPreview()">
-                    </div>
-                    <div class="profit-preview" id="profitPreview">
-                        سعر الشراء: -- | الربح: --
-                    </div>
-                    <div class="modal-footer" style="padding: 1rem 0 0 0;">
-                        <button type="submit" class="btn btn-success"><i class="fas fa-check"></i> تأكيد البيع</button>
-                        <button type="button" class="btn btn-secondary" onclick="closeModal('sellModal')">إلغاء</button>
-                    </div>
-                </form>
-            </div>
+
+    <div class="search-section">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="بحث في القطع والأجهزة والموردين..." onkeyup="handleSearch()">
+        </div>
+        <div class="filter-bar">
+            <select class="filter-select" id="categoryFilter" onchange="filterItems()">
+                <option value="all">جميع الأقسام</option>
+                <option value="بطاريات">بطاريات</option>
+                <option value="صوتيات">صوتيات</option>
+                <option value="شاشات">شاشات</option>
+                <option value="هوسنجات">هوسنجات</option>
+                <option value="فريمات">فريمات</option>
+                <option value="كاميرات">كاميرات</option>
+                <option value="فلاتات">فلاتات</option>
+                <option value="اخري">اخري</option>
+            </select>
+            <select class="filter-select" id="supplierFilter" onchange="filterItems()">
+                <option value="all">جميع الموردين</option>
+            </select>
+            <button class="btn btn-secondary btn-sm" onclick="resetFilters()">
+                <i class="fas fa-undo"></i> إعادة تعيين
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="refreshData()">
+                <i class="fas fa-sync-alt"></i> تحديث
+            </button>
         </div>
     </div>
-    
-    <script>
-        // ============================================
-        // CONFIGURATION
-        // ============================================
-        const STOCK_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz4WGJxVYyhKV6kV6YuTrrDfd4tB6QhcvbUqfENiFnGAvwtTcgPboSJIGKBYvfnaDD-/exec'; // ⚠️ استبدل هذا برابط النشر الفعلي من Google Apps Script
-        
-        let stockItems = [];
-        let currentCategoryFilter = 'all';
-        let currentStatusFilter = 'all';
-        let currentSearchQuery = '';
-        
-        // ============================================
-        // SESSION MANAGEMENT
-        // ============================================
-        function getCurrentUser() {
-            let user = localStorage.getItem('currentUser');
-            if (!user) {
-                user = prompt('الرجاء إدخال اسمك:', 'فني');
-                if (!user) user = 'فني';
-                localStorage.setItem('currentUser', user);
-            }
-            return user;
-        }
-        
-        function updateUserDisplay() {
-            const user = getCurrentUser();
-            document.getElementById('userNameDisplay').textContent = user;
-            document.getElementById('userAvatar').textContent = user.charAt(0);
-        }
-        
-        // ============================================
-        // UI HELPERS
-        // ============================================
-        function showLoading() {
-            document.getElementById('loadingOverlay').classList.add('active');
-        }
-        
-        function hideLoading() {
-            document.getElementById('loadingOverlay').classList.remove('active');
-        }
-        
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            const icon = document.createElement('i');
-            icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
-            const text = document.createElement('span');
-            text.textContent = message;
-            toast.appendChild(icon);
-            toast.appendChild(text);
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.style.animation = 'toastSlideIn 0.3s reverse';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-        
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('mainContent').classList.toggle('expanded');
-        }
-        
-        function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            html.setAttribute('data-theme', newTheme);
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('items')">قطع الغيار</button>
+        <button class="tab-btn" onclick="switchTab('devices')">الأجهزة</button>
+    </div>
+
+    <div id="itemsTab" class="tab-content active">
+        <div class="items-grid" id="itemsGrid"></div>
+    </div>
+
+    <div id="devicesTab" class="tab-content">
+        <div class="items-grid" id="devicesGrid"></div>
+    </div>
+</div>
+
+<div class="modal" id="addItemModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">إضافة قطعة غيار جديدة</h3>
+            <button class="modal-close" onclick="closeModal('addItemModal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <form id="addItemForm">
+                <div class="form-group">
+                    <label class="form-label required">القسم</label>
+                    <select class="form-control" id="itemCategory" required>
+                        <option value="">اختر القسم</option>
+                        <option value="بطاريات">بطاريات</option>
+                        <option value="صوتيات">صوتيات</option>
+                        <option value="شاشات">شاشات</option>
+                        <option value="هوسنجات">هوسنجات</option>
+                        <option value="فريمات">فريمات</option>
+                        <option value="كاميرات">كاميرات</option>
+                        <option value="فلاتات">فلاتات</option>
+                        <option value="اخري">اخري</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label required">نوع القطعة</label>
+                    <input type="text" class="form-control" id="itemType" required placeholder="مثال: بطارية داخلية">
+                </div>
+                <div class="form-group">
+                    <label class="form-label required">اسم القطعة</label>
+                    <input type="text" class="form-control" id="itemName" required placeholder="مثال: بطارية iPhone 13">
+                </div>
+                <div class="form-group">
+                    <label class="form-label required">سعر الشراء</label>
+                    <input type="number" class="form-control" id="itemCostPrice" required placeholder="0.00" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label class="form-label required">المورد</label>
+                    <select class="form-control" id="itemSupplier" required onchange="handleSupplierSelect('item')">
+                        <option value="">اختر المورد</option>
+                    </select>
+                    <div class="inline-supplier-add" id="itemSupplierAdd" style="display: none;">
+                        <input type="text" id="newSupplierName" placeholder="اسم المورد">
+                        <input type="text" id="newSupplierPhone" placeholder="رقم المورد">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="addNewSupplierAndUse('item')">إضافة</button>
+                    </div>
+                    <small class="text-small" style="color: var(--text-muted); display: block; margin-top: 0.25rem;">
+                        <i class="fas fa-info-circle"></i> لا يوجد مورد؟ اختر "إضافة مورد جديد" من القائمة
+                    </small>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal('addItemModal')">إلغاء</button>
+            <button class="btn btn-primary" onclick="submitAddItem()">إضافة القطعة</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="addDeviceModal">
+    <div class="modal-content" style="max-width: 700px;">
+        <div class="modal-header">
+            <h3 class="modal-title">إضافة جهاز جديد</h3>
+            <button class="modal-close" onclick="closeModal('addDeviceModal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <form id="addDeviceForm">
+                <div class="form-group">
+                    <label class="form-label required">اسم الجهاز</label>
+                    <input type="text" class="form-control" id="deviceName" required placeholder="مثال: iPhone 13 Pro">
+                </div>
+                <div class="form-group">
+                    <label class="form-label required">نوع الجهاز</label>
+                    <input type="text" class="form-control" id="deviceType" required placeholder="مثال: هاتف محمول">
+                </div>
+                <div class="form-group">
+                    <label class="form-label required">موديل الجهاز</label>
+                    <input type="text" class="form-control" id="deviceModel" required placeholder="مثال: A2483">
+                </div>
+                <div class="form-group">
+                    <label class="form-label required">سعر الشراء</label>
+                    <input type="number" class="form-control" id="deviceCostPrice" required placeholder="0.00" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label class="form-label required">المورد</label>
+                    <select class="form-control" id="deviceSupplier" required onchange="handleSupplierSelect('device')">
+                        <option value="">اختر المورد</option>
+                    </select>
+                    <div class="inline-supplier-add" id="deviceSupplierAdd" style="display: none;">
+                        <input type="text" id="deviceNewSupplierName" placeholder="اسم المورد">
+                        <input type="text" id="deviceNewSupplierPhone" placeholder="رقم المورد">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="addNewSupplierAndUse('device')">إضافة</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="deviceHasParts" onchange="togglePartsSelection()">
+                        <label>يحتوي الجهاز على قطع غيار</label>
+                    </div>
+                </div>
+                <div id="partsSelectionContainer" style="display: none;">
+                    <label class="form-label">قطع الغيار المرتبطة</label>
+                    <div class="parts-list" id="partsList"></div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal('addDeviceModal')">إلغاء</button>
+            <button class="btn btn-success" onclick="submitAddDevice()">إضافة الجهاز</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="deviceDetailsModal">
+    <div class="modal-content" style="max-width: 700px;">
+        <div class="modal-header">
+            <h3 class="modal-title">تفاصيل الجهاز</h3>
+            <button class="modal-close" onclick="closeModal('deviceDetailsModal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body" id="deviceDetailsBody"></div>
+    </div>
+</div>
+
+<div class="modal" id="suppliersModal">
+    <div class="modal-content" style="max-width: 800px;">
+        <div class="modal-header">
+            <h3 class="modal-title">إدارة الموردين</h3>
+            <button class="modal-close" onclick="closeModal('suppliersModal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div style="margin-bottom: 1rem;">
+                <button class="btn btn-primary btn-sm" onclick="showAddSupplierForm()">
+                    <i class="fas fa-plus"></i> إضافة مورد جديد
+                </button>
+            </div>
+            <div id="addSupplierForm" style="display: none; margin-bottom: 1rem; padding: 1rem; background: var(--surface-hover); border-radius: var(--radius-md);">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="supplierName" placeholder="اسم المورد">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="supplierPhone" placeholder="رقم المورد">
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="addSupplier()">حفظ المورد</button>
+                <button class="btn btn-secondary btn-sm" onclick="hideAddSupplierForm()">إلغاء</button>
+            </div>
+            <div id="suppliersList"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="itemDetailsModal">
+    <div class="modal-content" style="max-width: 600px;">
+        <div class="modal-header">
+            <h3 class="modal-title">تفاصيل القطعة</h3>
+            <button class="modal-close" onclick="closeModal('itemDetailsModal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body" id="itemDetailsBody"></div>
+    </div>
+</div>
+
+
+
+<script>
+    const CONFIG = {
+        APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzDBATFBqVuRmId_aPDzmvIY28c3vZuPuYQing_HMKuuuDt2znn6M8cQIdPWaX-IAAqDw/exec'
+    };
+
+    let stockItems = [];
+    let devices = [];
+    let suppliers = [];
+    let devicePartsLinks = [];
+    let currentSearchQuery = '';
+    let currentCategoryFilter = 'all';
+    let currentSupplierFilter = 'all';
+    let currentSellItemId = null;
+
+    function showToast(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        const icon = document.createElement('i');
+        icon.className = type === 'success' ? 'fas fa-check-circle' : 
+                        type === 'error' ? 'fas fa-exclamation-circle' : 
+                        type === 'warning' ? 'fas fa-exclamation-triangle' : 'fas fa-info-circle';
+        const text = document.createElement('span');
+        text.textContent = message;
+        toast.appendChild(icon);
+        toast.appendChild(text);
+        container.appendChild(toast);
+        setTimeout(() => {
+            toast.style.animation = 'toastSlideIn 0.3s reverse';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    function showLoading() { document.getElementById('loadingOverlay').classList.add('active'); }
+    function hideLoading() { document.getElementById('loadingOverlay').classList.remove('active'); }
+    function closeModal(modalId) { document.getElementById(modalId).classList.remove('active'); }
+    function openModal(modalId) { document.getElementById(modalId).classList.add('active'); }
+
+    function toggleTheme() {
+        const html = document.documentElement;
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', newTheme);
+        const icon = document.querySelector('#themeToggle i');
+        if (icon) icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        localStorage.setItem('theme', newTheme);
+    }
+
+    function checkTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
             const icon = document.querySelector('#themeToggle i');
-            if (icon) icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-            localStorage.setItem('theme', newTheme);
+            if (icon) icon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
         }
-        
-        function checkTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                document.documentElement.setAttribute('data-theme', savedTheme);
-                const icon = document.querySelector('#themeToggle i');
-                if (icon) icon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-            }
+    }
+
+    async function apiCall(action, payload = {}) {
+        try {
+            const formData = new FormData();
+            formData.append('action', action);
+            formData.append('payload', JSON.stringify(payload));
+            const response = await fetch(CONFIG.APPS_SCRIPT_URL, { method: 'POST', body: formData });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error(`API Error (${action}):`, error);
+            showToast(error.message || 'حدث خطأ في الاتصال', 'error');
+            return { success: false, error: error.message };
         }
-        
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
+    }
+
+    async function loadSuppliers() {
+        const result = await apiCall('GET_SUPPLIERS');
+        if (result.success && result.data) {
+            suppliers = result.data;
+            updateSupplierDropdowns();
+            updateStats();
+            renderSuppliersList();
+            return true;
         }
+        return false;
+    }
+
+    function updateSupplierDropdowns() {
+        const itemSupplierSelect = document.getElementById('itemSupplier');
+        const deviceSupplierSelect = document.getElementById('deviceSupplier');
+        const supplierFilter = document.getElementById('supplierFilter');
         
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-        }
-        
-        function formatDate(dateString) {
-            if (!dateString) return 'غير محدد';
-            const date = new Date(dateString);
-            return date.toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' });
-        }
-        
-        // ============================================
-        // API CALLS
-        // ============================================
-        async function callApi(action, payload = {}) {
-            if (!STOCK_SCRIPT_URL) {
-                showToast('⚠️ لم يتم إعداد رابط Google Apps Script', 'error');
-                throw new Error('STOCK_SCRIPT_URL not configured');
-            }
-            
-            try {
-                const formData = new FormData();
-                formData.append('action', action);
-                formData.append('payload', JSON.stringify(payload));
-                
-                const response = await fetch(STOCK_SCRIPT_URL, {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                const data = await response.json();
-                if (!data.success) throw new Error(data.error || 'فشل العملية');
-                return data;
-            } catch (error) {
-                console.error('API Error:', error);
-                showToast(error.message || 'حدث خطأ في الاتصال', 'error');
-                throw error;
-            }
-        }
-        
-        // ============================================
-        // CORE FUNCTIONS
-        // ============================================
-        async function loadStockItems() {
-            showLoading();
-            try {
-                const result = await callApi('getItems');
-                if (result.success && result.data) {
-                    stockItems = result.data;
-                    renderStats();
-                    renderItems();
-                } else {
-                    stockItems = [];
-                    renderItems();
-                }
-            } catch (error) {
-                console.error('Error loading items:', error);
-                stockItems = [];
-                renderItems();
-            } finally {
-                hideLoading();
-            }
-        }
-        
-        function refreshData() {
-            loadStockItems();
-        }
-        
-        function renderStats() {
-            const totalItems = stockItems.length;
-            const inStock = stockItems.filter(i => i.Status !== 'Sold').length;
-            const sold = stockItems.filter(i => i.Status === 'Sold').length;
-            const totalProfit = stockItems.reduce((sum, i) => sum + (parseFloat(i.Profit) || 0), 0);
-            
-            document.getElementById('statsContainer').innerHTML = `
-                <div class="stat-card">
-                    <div class="stat-value">${totalItems}</div>
-                    <div class="stat-label">إجمالي القطع</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" style="color: var(--success);">${inStock}</div>
-                    <div class="stat-label">متوفر</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" style="color: var(--warning);">${sold}</div>
-                    <div class="stat-label">مباع</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" style="color: var(--primary);">${totalProfit.toFixed(2)} جنيه</div>
-                    <div class="stat-label">إجمالي الأرباح</div>
-                </div>
-            `;
-        }
-        
-        function filterItems() {
-            let filtered = [...stockItems];
-            
-            if (currentCategoryFilter !== 'all') {
-                filtered = filtered.filter(i => i.Category === currentCategoryFilter);
-            }
-            
-            if (currentStatusFilter !== 'all') {
-                filtered = filtered.filter(i => i.Status === currentStatusFilter);
-            }
-            
-            if (currentSearchQuery) {
-                const query = currentSearchQuery.toLowerCase();
-                filtered = filtered.filter(i => 
-                    (i.Name && i.Name.toLowerCase().includes(query)) ||
-                    (i.Type && i.Type.toLowerCase().includes(query)) ||
-                    (i.CustomerName && i.CustomerName.toLowerCase().includes(query))
-                );
-            }
-            
-            return filtered;
-        }
-        
-        function renderItems() {
-            const filtered = filterItems();
-            const grid = document.getElementById('itemsGrid');
-            
-            if (filtered.length === 0) {
-                grid.innerHTML = '<div class="empty-state">📭 لا توجد قطع لعرضها</div>';
-                return;
-            }
-            
-            grid.innerHTML = filtered.map(item => `
-                <div class="stock-card ${item.Status === 'Sold' ? 'sold' : ''}">
-                    <span class="badge ${item.Status === 'Sold' ? 'badge-success' : 'badge-warning'}">
-                        ${item.Status === 'Sold' ? '✅ مباع' : '📦 متوفر'}
-                    </span>
-                    <h4>${escapeHtml(item.Name || 'غير محدد')}</h4>
-                    <p><i class="fas fa-tag"></i> <strong>القسم:</strong> ${item.Category || 'غير محدد'}</p>
-                    <p><i class="fas fa-microchip"></i> <strong>النوع:</strong> ${item.Type || 'غير محدد'}</p>
-                    ${item.Status === 'Sold' ? `
-                        <p><i class="fas fa-user"></i> <strong>العميل:</strong> ${escapeHtml(item.CustomerName || 'غير محدد')}</p>
-                        <p><i class="fas fa-dollar-sign"></i> <strong>سعر الشراء:</strong> ${parseFloat(item.CostPrice).toFixed(2)} جنيه</p>
-                        <p><i class="fas fa-money-bill-wave"></i> <strong>سعر البيع:</strong> ${parseFloat(item.SellPrice).toFixed(2)} جنيه</p>
-                        <p class="${parseFloat(item.Profit) >= 0 ? 'profit-positive' : 'profit-negative'}">
-                            <i class="fas fa-chart-line"></i> <strong>الربح:</strong> ${parseFloat(item.Profit).toFixed(2)} جنيه
-                        </p>
-                        <p><i class="fas fa-calendar"></i> <strong>تاريخ البيع:</strong> ${formatDate(item.Date)}</p>
-                    ` : `
-                        <p><i class="fas fa-dollar-sign"></i> <strong>سعر الشراء:</strong> ${parseFloat(item.CostPrice).toFixed(2)} جنيه</p>
-                        <button class="btn btn-success btn-sm" style="margin-top: 0.5rem; width: 100%;" onclick="openSellWithItem('${item.ID}')">
-                            <i class="fas fa-tag"></i> بيع هذه القطعة
-                        </button>
-                    `}
-                </div>
-            `).join('');
-        }
-        
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        // ============================================
-        // FILTERS
-        // ============================================
-        function setCategoryFilter(category) {
-            currentCategoryFilter = category;
-            document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
-                if (btn.getAttribute('data-filter') === category) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
+        if (itemSupplierSelect) {
+            const currentValue = itemSupplierSelect.value;
+            itemSupplierSelect.innerHTML = '<option value="">اختر المورد</option><option value="__NEW__">+ إضافة مورد جديد</option>';
+            suppliers.forEach(supplier => {
+                itemSupplierSelect.innerHTML += `<option value="${supplier.ID}" data-name="${supplier.Name}" data-phone="${supplier.Phone}">${supplier.Name} - ${supplier.Phone}</option>`;
             });
-            renderItems();
+            if (currentValue && currentValue !== '__NEW__') itemSupplierSelect.value = currentValue;
         }
         
-        function setStatusFilter(status) {
-            currentStatusFilter = status;
-            document.querySelectorAll('.filter-btn[data-status]').forEach(btn => {
-                if (btn.getAttribute('data-status') === status) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
+        if (deviceSupplierSelect) {
+            const currentValue = deviceSupplierSelect.value;
+            deviceSupplierSelect.innerHTML = '<option value="">اختر المورد</option><option value="__NEW__">+ إضافة مورد جديد</option>';
+            suppliers.forEach(supplier => {
+                deviceSupplierSelect.innerHTML += `<option value="${supplier.ID}" data-name="${supplier.Name}" data-phone="${supplier.Phone}">${supplier.Name} - ${supplier.Phone}</option>`;
             });
-            renderItems();
+            if (currentValue && currentValue !== '__NEW__') deviceSupplierSelect.value = currentValue;
         }
         
-        function handleSearch() {
-            currentSearchQuery = document.getElementById('searchInput').value;
-            renderItems();
+        if (supplierFilter) {
+            const currentFilter = supplierFilter.value;
+            supplierFilter.innerHTML = '<option value="all">جميع الموردين</option>';
+            suppliers.forEach(supplier => {
+                supplierFilter.innerHTML += `<option value="${supplier.ID}">${supplier.Name}</option>`;
+            });
+            if (currentFilter && currentFilter !== 'all') supplierFilter.value = currentFilter;
         }
-        
-        // ============================================
-        // ADD ITEM
-        // ============================================
-        function openAddItemModal() {
+    }
+
+    function handleSupplierSelect(type) {
+        const select = document.getElementById(`${type}Supplier`);
+        const addDiv = document.getElementById(`${type}SupplierAdd`);
+        if (select.value === '__NEW__') {
+            addDiv.style.display = 'flex';
+            select.value = '';
+        } else {
+            addDiv.style.display = 'none';
+        }
+    }
+
+    async function addNewSupplierAndUse(type) {
+        const nameInput = document.getElementById(type === 'item' ? 'newSupplierName' : 'deviceNewSupplierName');
+        const phoneInput = document.getElementById(type === 'item' ? 'newSupplierPhone' : 'deviceNewSupplierPhone');
+        const name = nameInput.value.trim();
+        const phone = phoneInput.value.trim();
+        if (!name || !phone) { showToast('الرجاء إدخال اسم ورقم المورد', 'warning'); return; }
+        showLoading();
+        const result = await apiCall('ADD_SUPPLIER', { name, phone });
+        hideLoading();
+        if (result.success && result.data) {
+            showToast('تم إضافة المورد بنجاح', 'success');
+            await loadSuppliers();
+            const select = document.getElementById(`${type}Supplier`);
+            setTimeout(() => { select.value = result.data.ID; }, 100);
+            nameInput.value = '';
+            phoneInput.value = '';
+            document.getElementById(`${type}SupplierAdd`).style.display = 'none';
+        } else {
+            showToast(result.error || 'فشل إضافة المورد', 'error');
+        }
+    }
+
+    async function addSupplier() {
+        const name = document.getElementById('supplierName').value.trim();
+        const phone = document.getElementById('supplierPhone').value.trim();
+        if (!name || !phone) { showToast('الرجاء إدخال اسم ورقم المورد', 'warning'); return; }
+        showLoading();
+        const result = await apiCall('ADD_SUPPLIER', { name, phone });
+        hideLoading();
+        if (result.success) {
+            showToast('تم إضافة المورد بنجاح', 'success');
+            await loadSuppliers();
+            document.getElementById('supplierName').value = '';
+            document.getElementById('supplierPhone').value = '';
+            hideAddSupplierForm();
+        } else {
+            showToast(result.error || 'فشل إضافة المورد', 'error');
+        }
+    }
+
+    function showAddSupplierForm() { document.getElementById('addSupplierForm').style.display = 'block'; }
+    function hideAddSupplierForm() { document.getElementById('addSupplierForm').style.display = 'none'; }
+    function openSuppliersModal() { renderSuppliersList(); openModal('suppliersModal'); }
+
+    function renderSuppliersList() {
+        const container = document.getElementById('suppliersList');
+        if (!container) return;
+        if (suppliers.length === 0) { container.innerHTML = '<div class="empty-state"><i class="fas fa-truck"></i><p>لا يوجد موردين</p></div>'; return; }
+        container.innerHTML = `<div class="items-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">${suppliers.map(supplier => `
+            <div class="item-card" style="cursor: default;">
+                <div class="card-header"><h4 class="card-title">${escapeHtml(supplier.Name)}</h4></div>
+                <div class="card-details">
+                    <div class="detail-row"><span class="detail-label"><i class="fas fa-phone"></i> رقم الهاتف</span><span class="detail-value">${escapeHtml(supplier.Phone)}</span></div>
+                    <div class="detail-row"><span class="detail-label"><i class="fas fa-calendar"></i> تاريخ الإضافة</span><span class="detail-value">${formatDate(supplier.Date)}</span></div>
+                </div>
+            </div>`).join('')}</div>`;
+    }
+
+    async function loadItems() {
+        const result = await apiCall('GET_ITEMS');
+        if (result.success && result.data) { stockItems = result.data; updateStats(); renderItems(); return true; }
+        return false;
+    }
+
+    async function submitAddItem() {
+        const category = document.getElementById('itemCategory').value;
+        const type = document.getElementById('itemType').value.trim();
+        const name = document.getElementById('itemName').value.trim();
+        const costPrice = document.getElementById('itemCostPrice').value;
+        const supplierId = document.getElementById('itemSupplier').value;
+        if (!category || !type || !name || !costPrice || !supplierId) { showToast('الرجاء ملء جميع الحقول المطلوبة', 'warning'); return; }
+        const supplier = suppliers.find(s => s.ID === supplierId);
+        if (!supplier) { showToast('الرجاء اختيار مورد صالح', 'warning'); return; }
+        showLoading();
+        const result = await apiCall('ADD_ITEM', { category, type, name, costPrice: parseFloat(costPrice), supplierId, supplierName: supplier.Name, supplierPhone: supplier.Phone });
+        hideLoading();
+        if (result.success) {
+            showToast('تم إضافة القطعة بنجاح', 'success');
+            closeModal('addItemModal');
             document.getElementById('addItemForm').reset();
-            openModal('addItemModal');
+            await loadItems();
+            await loadDevicePartsLinks();
+        } else {
+            showToast(result.error || 'فشل إضافة القطعة', 'error');
         }
-        
-        async function submitAddItem(event) {
-            event.preventDefault();
-            showLoading();
-            
-            const itemData = {
-                category: document.getElementById('itemCategory').value,
-                type: document.getElementById('itemType').value,
-                name: document.getElementById('itemName').value,
-                costPrice: parseFloat(document.getElementById('itemCostPrice').value)
-            };
-            
-            if (!itemData.category || !itemData.type || !itemData.name || !itemData.costPrice) {
-                showToast('الرجاء ملء جميع الحقول المطلوبة', 'error');
-                hideLoading();
-                return;
-            }
-            
-            try {
-                const result = await callApi('addItem', itemData);
-                if (result.success) {
-                    showToast('تم إضافة القطعة بنجاح');
-                    closeModal('addItemModal');
-                    await loadStockItems();
-                }
-            } catch (error) {
-                console.error('Error adding item:', error);
-            } finally {
-                hideLoading();
-            }
+    }
+
+    function renderItems() {
+        const container = document.getElementById('itemsGrid');
+        if (!container) return;
+        let filteredItems = [...stockItems];
+        if (currentSearchQuery) {
+            const query = currentSearchQuery.toLowerCase();
+            filteredItems = filteredItems.filter(item => (item.Name && item.Name.toLowerCase().includes(query)) || (item.Type && item.Type.toLowerCase().includes(query)) || (item.Category && item.Category.toLowerCase().includes(query)) || (item.SupplierName && item.SupplierName.toLowerCase().includes(query)) || (item.SupplierPhone && item.SupplierPhone.includes(query)));
         }
-        
-        // ============================================
-        // SELL ITEM
-        // ============================================
-        function openSellModal() {
-            const inStockItems = stockItems.filter(i => i.Status !== 'Sold');
-            const select = document.getElementById('sellItemId');
-            select.innerHTML = '<option value="">اختر قطعة من المخزن</option>';
-            
-            if (inStockItems.length === 0) {
-                select.innerHTML = '<option value="">لا توجد قطع متوفرة للبيع</option>';
-                showToast('لا توجد قطع متوفرة للبيع حالياً', 'warning');
-            } else {
-                inStockItems.forEach(item => {
-                    const option = document.createElement('option');
-                    option.value = item.ID;
-                    option.textContent = `${item.Name} - ${item.Type} (سعر الشراء: ${parseFloat(item.CostPrice).toFixed(2)} جنيه)`;
-                    select.appendChild(option);
-                });
-            }
-            
-            document.getElementById('sellForm').reset();
-            document.getElementById('profitPreview').innerHTML = 'سعر الشراء: -- | الربح: --';
-            openModal('sellModal');
+        if (currentCategoryFilter !== 'all') filteredItems = filteredItems.filter(item => item.Category === currentCategoryFilter);
+        if (currentSupplierFilter !== 'all') filteredItems = filteredItems.filter(item => item.SupplierID === currentSupplierFilter);
+        if (filteredItems.length === 0) { container.innerHTML = '<div class="empty-state"><i class="fas fa-box-open"></i><p>لا توجد قطع غيار</p></div>'; return; }
+        container.innerHTML = filteredItems.map(item => {
+            const linkedDevices = devicePartsLinks.filter(link => link.ItemID === item.ID).map(link => devices.find(d => d.ID === link.DeviceID)).filter(d => d);
+            return `<div class="item-card" onclick="showItemDetails('${item.ID}')"><div class="card-header"><h4 class="card-title">${escapeHtml(item.Name)}</h4><div><span class="card-badge badge-category">${escapeHtml(item.Category || 'غير محدد')}</span></div></div><div class="card-details"><div class="detail-row"><span class="detail-label">النوع</span><span class="detail-value">${escapeHtml(item.Type || 'غير محدد')}</span></div><div class="detail-row"><span class="detail-label">سعر الشراء</span><span class="detail-value">${parseFloat(item.CostPrice || 0).toFixed(2)} جنيه</span></div><div class="detail-row"><span class="detail-label">الحالة</span><span class="detail-value ${item.Status === 'active' ? 'text-success' : 'text-danger'}">${item.Status === 'active' ? 'متوفر' : 'غير متوفر'}</span></div></div><div class="supplier-info"><i class="fas fa-truck"></i> ${escapeHtml(item.SupplierName || 'غير محدد')} | ${escapeHtml(item.SupplierPhone || '')}</div>${linkedDevices.length > 0 ? `<div class="related-items"><span class="detail-label">مرتبط بـ:</span>${linkedDevices.map(device => `<span class="related-tag"><i class="fas fa-mobile-alt"></i> ${escapeHtml(device.Name)}</span>`).join('')}</div>` : ''}<div class="card-actions" onclick="event.stopPropagation()"><button class="btn btn-secondary btn-icon btn-sm" onclick="editItem('${item.ID}')" title="تعديل"><i class="fas fa-edit"></i></button><button class="btn btn-success btn-icon btn-sm" onclick="openSellModal('${item.ID}')" title="بيع"><i class="fas fa-shopping-cart"></i> بيع</button></div></div>`;
+        }).join('');
+    }
+
+    async function loadDevices() {
+        const result = await apiCall('GET_DEVICES_STOCK');
+        if (result.success && result.data) { devices = result.data; updateStats(); renderDevices(); return true; }
+        return false;
+    }
+
+    async function loadDevicePartsLinks() {
+        const result = await apiCall('GET_DEVICE_PARTS');
+        if (result.success && result.data) { devicePartsLinks = result.data; renderItems(); renderDevices(); updateStats(); return true; }
+        return false;
+    }
+
+    function togglePartsSelection() {
+        const container = document.getElementById('partsSelectionContainer');
+        const checkbox = document.getElementById('deviceHasParts');
+        container.style.display = checkbox.checked ? 'block' : 'none';
+        if (checkbox.checked) renderPartsList();
+    }
+
+    function renderPartsList() {
+        const container = document.getElementById('partsList');
+        if (!container) return;
+        if (stockItems.length === 0) { container.innerHTML = '<div class="empty-state"><p>لا توجد قطع غيار متاحة</p></div>'; return; }
+        container.innerHTML = stockItems.map(item => `<div class="part-item"><input type="checkbox" id="part_${item.ID}" value="${item.ID}"><label for="part_${item.ID}"><strong>${escapeHtml(item.Name)}</strong><div class="part-category">${escapeHtml(item.Category)} - ${escapeHtml(item.Type)}</div></label></div>`).join('');
+    }
+
+    function getSelectedParts() {
+        const checkboxes = document.querySelectorAll('#partsList input[type="checkbox"]:checked');
+        return Array.from(checkboxes).map(cb => cb.value);
+    }
+
+    async function submitAddDevice() {
+        const name = document.getElementById('deviceName').value.trim();
+        const type = document.getElementById('deviceType').value.trim();
+        const model = document.getElementById('deviceModel').value.trim();
+        const costPrice = document.getElementById('deviceCostPrice').value;
+        const supplierId = document.getElementById('deviceSupplier').value;
+        const hasParts = document.getElementById('deviceHasParts').checked;
+        if (!name || !type || !model || !costPrice || !supplierId) { showToast('الرجاء ملء جميع الحقول المطلوبة', 'warning'); return; }
+        const supplier = suppliers.find(s => s.ID === supplierId);
+        if (!supplier) { showToast('الرجاء اختيار مورد صالح', 'warning'); return; }
+        const parts = hasParts ? getSelectedParts() : [];
+        showLoading();
+        const deviceResult = await apiCall('ADD_DEVICE', { name, type, model, costPrice: parseFloat(costPrice), supplierId, supplierName: supplier.Name, supplierPhone: supplier.Phone, parts });
+        hideLoading();
+        if (deviceResult.success) {
+            showToast('تم إضافة الجهاز بنجاح', 'success');
+            closeModal('addDeviceModal');
+            document.getElementById('addDeviceForm').reset();
+            document.getElementById('partsSelectionContainer').style.display = 'none';
+            await loadDevices();
+            await loadDevicePartsLinks();
+        } else {
+            showToast(deviceResult.error || 'فشل إضافة الجهاز', 'error');
         }
-        
-        function openSellWithItem(itemId) {
-            openSellModal();
-            setTimeout(() => {
-                const select = document.getElementById('sellItemId');
-                if (select) {
-                    select.value = itemId;
-                    updateProfitPreview();
-                }
-            }, 100);
+    }
+
+    function renderDevices() {
+        const container = document.getElementById('devicesGrid');
+        if (!container) return;
+        let filteredDevices = [...devices];
+        if (currentSearchQuery) {
+            const query = currentSearchQuery.toLowerCase();
+            filteredDevices = filteredDevices.filter(device => (device.Name && device.Name.toLowerCase().includes(query)) || (device.Type && device.Type.toLowerCase().includes(query)) || (device.Model && device.Model.toLowerCase().includes(query)) || (device.SupplierName && device.SupplierName.toLowerCase().includes(query)) || (device.SupplierPhone && device.SupplierPhone.includes(query)));
         }
-        
-        function updateProfitPreview() {
-            const itemId = document.getElementById('sellItemId').value;
-            const sellPrice = parseFloat(document.getElementById('sellPrice').value);
-            
-            if (!itemId) {
-                document.getElementById('profitPreview').innerHTML = 'سعر الشراء: -- | الربح: --';
-                return;
-            }
-            
-            const item = stockItems.find(i => i.ID === itemId);
-            if (!item) return;
-            
-            const costPrice = parseFloat(item.CostPrice);
-            const profit = !isNaN(sellPrice) ? sellPrice - costPrice : 0;
-            const profitClass = profit >= 0 ? 'profit-positive' : 'profit-negative';
-            
-            document.getElementById('profitPreview').innerHTML = `
-                <strong>سعر الشراء:</strong> ${costPrice.toFixed(2)} جنيه<br>
-                <strong class="${profitClass}">الربح: ${profit.toFixed(2)} جنيه</strong>
-            `;
+        if (currentSupplierFilter !== 'all') filteredDevices = filteredDevices.filter(device => device.SupplierID === currentSupplierFilter);
+        if (filteredDevices.length === 0) { container.innerHTML = '<div class="empty-state"><i class="fas fa-microchip"></i><p>لا توجد أجهزة</p></div>'; return; }
+        container.innerHTML = filteredDevices.map(device => {
+            const linkedParts = devicePartsLinks.filter(link => link.DeviceID === device.ID).map(link => stockItems.find(item => item.ID === link.ItemID)).filter(item => item);
+            return `<div class="item-card" onclick="showDeviceDetails('${device.ID}')"><div class="card-header"><h4 class="card-title">${escapeHtml(device.Name)}</h4><span class="card-badge badge-type">${linkedParts.length} قطع</span></div><div class="card-details"><div class="detail-row"><span class="detail-label">النوع</span><span class="detail-value">${escapeHtml(device.Type || 'غير محدد')}</span></div><div class="detail-row"><span class="detail-label">الموديل</span><span class="detail-value">${escapeHtml(device.Model || 'غير محدد')}</span></div><div class="detail-row"><span class="detail-label">سعر الشراء</span><span class="detail-value">${parseFloat(device.CostPrice || 0).toFixed(2)} جنيه</span></div></div><div class="supplier-info"><i class="fas fa-truck"></i> ${escapeHtml(device.SupplierName || 'غير محدد')} | ${escapeHtml(device.SupplierPhone || '')}</div>${linkedParts.length > 0 ? `<div class="related-items"><span class="detail-label">قطع الغيار:</span>${linkedParts.slice(0, 3).map(part => `<span class="related-tag"><i class="fas fa-microchip"></i> ${escapeHtml(part.Name)}</span>`).join('')}${linkedParts.length > 3 ? `<span class="related-tag">+${linkedParts.length - 3}</span>` : ''}</div>` : ''}<div class="card-actions" onclick="event.stopPropagation()"><button class="btn btn-secondary btn-icon btn-sm" onclick="editDevice('${device.ID}')" title="تعديل"><i class="fas fa-edit"></i></button></div></div>`;
+        }).join('');
+    }
+
+    function showDeviceDetails(deviceId) {
+        const device = devices.find(d => d.ID === deviceId);
+        if (!device) return;
+        const linkedParts = devicePartsLinks.filter(link => link.DeviceID === device.ID).map(link => stockItems.find(item => item.ID === link.ItemID)).filter(item => item);
+        const modalBody = document.getElementById('deviceDetailsBody');
+        modalBody.innerHTML = `<div class="device-details-card">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-light), var(--primary)); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;"><i class="fas fa-mobile-alt"></i></div>
+                <div><h3 style="font-size: var(--font-size-xl);">${escapeHtml(device.Name)}</h3><p class="text-small" style="color: var(--text-muted);">${escapeHtml(device.Model)}</p></div>
+            </div>
+            <h4 style="margin-bottom: 1rem;">قطع الغيار المرتبطة</h4>
+            <div id="devicePartsContainer">${linkedParts.length === 0 ? '<p class="text-small">لا توجد قطع غيار مرتبطة بهذا الجهاز</p>' : linkedParts.map(part => `
+                <div class="device-part-card" id="partCard_${part.ID}">
+                    <div class="device-part-name">${escapeHtml(part.Name)}</div>
+                    <div class="part-extra-details" id="partExtra_${part.ID}" style="display: none; margin-top: 0.5rem;">
+                        <div class="detail-row"><span class="detail-label">القسم</span><span>${escapeHtml(part.Category)}</span></div>
+                        <div class="detail-row"><span class="detail-label">النوع</span><span>${escapeHtml(part.Type)}</span></div>
+                        <div class="detail-row"><span class="detail-label">سعر الشراء</span><span>${parseFloat(part.CostPrice || 0).toFixed(2)} جنيه</span></div>
+                        <div class="supplier-info" style="margin-top: 0.5rem;"><i class="fas fa-truck"></i> ${escapeHtml(part.SupplierName)} | ${escapeHtml(part.SupplierPhone)}</div>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" style="margin-top: 0.5rem;" onclick="togglePartDetails('${part.ID}')">عرض تفاصيل القطع</button>
+                </div>
+            `).join('')}</div>
+        </div>`;
+        openModal('deviceDetailsModal');
+    }
+
+    function togglePartDetails(partId) {
+        const detailsDiv = document.getElementById(`partExtra_${partId}`);
+        if (detailsDiv) {
+            const isVisible = detailsDiv.style.display === 'block';
+            detailsDiv.style.display = isVisible ? 'none' : 'block';
+            const btn = document.querySelector(`#partCard_${partId} button`);
+            if (btn) btn.textContent = isVisible ? 'عرض تفاصيل القطع' : 'إخفاء التفاصيل';
         }
-        
-        async function submitSell(event) {
-            event.preventDefault();
-            showLoading();
-            
-            const itemId = document.getElementById('sellItemId').value;
-            const customerName = document.getElementById('customerName').value;
-            const sellPrice = parseFloat(document.getElementById('sellPrice').value);
-            
-            if (!itemId || !customerName || isNaN(sellPrice)) {
-                showToast('الرجاء ملء جميع الحقول المطلوبة', 'error');
-                hideLoading();
-                return;
-            }
-            
-            const item = stockItems.find(i => i.ID === itemId);
-            if (!item) {
-                showToast('القطعة غير موجودة', 'error');
-                hideLoading();
-                return;
-            }
-            
-            const sellData = {
-                id: itemId,
-                customerName: customerName,
-                sellPrice: sellPrice,
-                costPrice: parseFloat(item.CostPrice)
-            };
-            
-            try {
-                const result = await callApi('sellItem', sellData);
-                if (result.success) {
-                    showToast(`تم بيع القطعة بنجاح! الربح: ${(sellPrice - parseFloat(item.CostPrice)).toFixed(2)} جنيه`);
-                    closeModal('sellModal');
-                    await loadStockItems();
-                }
-            } catch (error) {
-                console.error('Error selling item:', error);
-            } finally {
-                hideLoading();
-            }
+    }
+
+    function showItemDetails(itemId) {
+        const item = stockItems.find(i => i.ID === itemId);
+        if (!item) return;
+        renderItemDetailsModal(item);
+    }
+
+    function renderItemDetailsModal(item) {
+        const linkedDevices = devicePartsLinks.filter(link => link.ItemID === item.ID).map(link => devices.find(d => d.ID === link.DeviceID)).filter(d => d);
+        const modalBody = document.getElementById('itemDetailsBody');
+        modalBody.innerHTML = `
+            <div class="device-details-card">
+                <div style="margin-bottom: 1.5rem;">
+                    <h3 style="font-size: var(--font-size-xl);">${escapeHtml(item.Name)}</h3>
+                </div>
+                <div class="device-details-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+                    <div class="device-detail-item" style="background: var(--surface-hover); padding: 0.75rem; border-radius: var(--radius-md);">
+                        <div class="device-detail-label" style="font-size: var(--font-size-xs); color: var(--text-muted);">النوع</div>
+                        <div class="device-detail-value" style="font-weight: 600;">${escapeHtml(item.Type || 'غير محدد')}</div>
+                    </div>
+                    <div class="device-detail-item" style="background: var(--surface-hover); padding: 0.75rem; border-radius: var(--radius-md);">
+                        <div class="device-detail-label" style="font-size: var(--font-size-xs); color: var(--text-muted);">القسم</div>
+                        <div class="device-detail-value" style="font-weight: 600;">${escapeHtml(item.Category || 'غير محدد')}</div>
+                    </div>
+                    <div class="device-detail-item" style="background: var(--surface-hover); padding: 0.75rem; border-radius: var(--radius-md);">
+                        <div class="device-detail-label" style="font-size: var(--font-size-xs); color: var(--text-muted);">سعر الشراء</div>
+                        <div class="device-detail-value" style="font-weight: 600;">${parseFloat(item.CostPrice || 0).toFixed(2)} جنيه</div>
+                    </div>
+                    <div class="device-detail-item" style="background: var(--surface-hover); padding: 0.75rem; border-radius: var(--radius-md);">
+                        <div class="device-detail-label" style="font-size: var(--font-size-xs); color: var(--text-muted);">المورد</div>
+                        <div class="device-detail-value" style="font-weight: 600;">${escapeHtml(item.SupplierName)}<br><small>${escapeHtml(item.SupplierPhone)}</small></div>
+                    </div>
+                </div>
+                <h4 style="margin-bottom: 1rem;">الأجهزة المرتبطة</h4>
+                <div class="device-parts-list">${linkedDevices.length === 0 ? '<p class="text-small">لا توجد أجهزة مرتبطة بهذه القطعة</p>' : linkedDevices.map(device => `<div class="device-part-card"><div class="device-part-name">${escapeHtml(device.Name)}</div><div class="detail-row" style="margin-top: 0.5rem;"><span class="detail-label">النوع</span><span>${escapeHtml(device.Type)}</span></div><div class="detail-row"><span class="detail-label">الموديل</span><span>${escapeHtml(device.Model)}</span></div></div>`).join('')}</div>
+            </div>
+        `;
+        openModal('itemDetailsModal');
+    }
+
+    function openSellModal(itemId) {
+        const item = stockItems.find(i => i.ID === itemId);
+        if (!item) return;
+        currentSellItemId = itemId;
+        const modalBody = document.getElementById('sellItemBody');
+        modalBody.innerHTML = `
+            <div class="form-group">
+                <label class="form-label">اسم القطعة</label>
+                <input type="text" class="form-control" value="${escapeHtml(item.Name)}" disabled>
+            </div>
+            <div class="form-group">
+                <label class="form-label">سعر الشراء</label>
+                <input type="text" class="form-control" id="sellCostPrice" value="${parseFloat(item.CostPrice || 0).toFixed(2)}" readonly>
+            </div>
+            <div class="form-group">
+                <label class="form-label required">سعر البيع</label>
+                <input type="number" class="form-control" id="sellPriceInput" placeholder="سعر البيع" step="0.01" oninput="calculateProfit()">
+            </div>
+            <div class="form-group">
+                <label class="form-label">الربح</label>
+                <input type="text" class="form-control" id="profitDisplay" readonly value="0.00">
+            </div>
+        `;
+        openModal('sellItemModal');
+    }
+
+    function calculateProfit() {
+        const costPrice = parseFloat(document.getElementById('sellCostPrice').value) || 0;
+        const sellPrice = parseFloat(document.getElementById('sellPriceInput').value) || 0;
+        const profit = sellPrice - costPrice;
+        document.getElementById('profitDisplay').value = profit.toFixed(2);
+    }
+
+    async function confirmSell() {
+        if (!currentSellItemId) return;
+        const sellPrice = parseFloat(document.getElementById('sellPriceInput').value);
+        if (isNaN(sellPrice) || sellPrice <= 0) {
+            showToast('الرجاء إدخال سعر بيع صحيح', 'warning');
+            return;
         }
-        
-        // ============================================
-        // INITIALIZATION
-        // ============================================
-        document.addEventListener('DOMContentLoaded', () => {
-            updateUserDisplay();
-            checkTheme();
-            loadStockItems();
-        });
-    </script>
+        const item = stockItems.find(i => i.ID === currentSellItemId);
+        if (!item) return;
+        const profit = sellPrice - (parseFloat(item.CostPrice) || 0);
+        showLoading();
+        const result = await apiCall('SELL_ITEM', { itemId: currentSellItemId, sellPrice: sellPrice, profit: profit });
+        hideLoading();
+        if (result.success) {
+            showToast(`تم بيع القطعة بنجاح. الربح: ${profit.toFixed(2)} جنيه`, 'success');
+            closeModal('sellItemModal');
+            await loadItems();
+            await loadDevicePartsLinks();
+            currentSellItemId = null;
+        } else {
+            showToast(result.error || 'فشل عملية البيع', 'error');
+        }
+    }
+
+    function handleSearch() { currentSearchQuery = document.getElementById('searchInput').value; renderItems(); renderDevices(); }
+    function filterItems() { currentCategoryFilter = document.getElementById('categoryFilter').value; currentSupplierFilter = document.getElementById('supplierFilter').value; renderItems(); renderDevices(); }
+    function resetFilters() { currentSearchQuery = ''; currentCategoryFilter = 'all'; currentSupplierFilter = 'all'; document.getElementById('searchInput').value = ''; document.getElementById('categoryFilter').value = 'all'; document.getElementById('supplierFilter').value = 'all'; renderItems(); renderDevices(); }
+    function switchTab(tab) { const itemsTab = document.getElementById('itemsTab'); const devicesTab = document.getElementById('devicesTab'); const tabs = document.querySelectorAll('.tab-btn'); if (tab === 'items') { itemsTab.classList.add('active'); devicesTab.classList.remove('active'); tabs[0].classList.add('active'); tabs[1].classList.remove('active'); renderItems(); } else { itemsTab.classList.remove('active'); devicesTab.classList.add('active'); tabs[0].classList.remove('active'); tabs[1].classList.add('active'); renderDevices(); } }
+    function openAddItemModal() { if (suppliers.length === 0) { showToast('الرجاء إضافة مورد أولاً', 'warning'); openSuppliersModal(); return; } document.getElementById('addItemForm').reset(); updateSupplierDropdowns(); openModal('addItemModal'); }
+    function openAddDeviceModal() { if (suppliers.length === 0) { showToast('الرجاء إضافة مورد أولاً', 'warning'); openSuppliersModal(); return; } document.getElementById('addDeviceForm').reset(); document.getElementById('partsSelectionContainer').style.display = 'none'; document.getElementById('deviceHasParts').checked = false; updateSupplierDropdowns(); if (stockItems.length > 0) renderPartsList(); openModal('addDeviceModal'); }
+    function updateStats() { document.getElementById('totalItems').textContent = stockItems.length; document.getElementById('totalDevices').textContent = devices.length; document.getElementById('totalSuppliers').textContent = suppliers.length; document.getElementById('totalLinkedParts').textContent = devicePartsLinks.length; }
+    async function refreshData() { showLoading(); await loadSuppliers(); await loadItems(); await loadDevices(); await loadDevicePartsLinks(); hideLoading(); showToast('تم تحديث البيانات', 'success'); }
+    function escapeHtml(text) { if (!text) return ''; const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+    function formatDate(dateString) { if (!dateString) return 'غير محدد'; try { const date = new Date(dateString); return date.toLocaleDateString('ar-EG'); } catch { return dateString; } }
+    function editItem(itemId) { showToast('ميزة التعديل قيد التطوير', 'info'); }
+    function editDevice(deviceId) { showToast('ميزة التعديل قيد التطوير', 'info'); }
+
+    async function init() { checkTheme(); showLoading(); await loadSuppliers(); await loadItems(); await loadDevices(); await loadDevicePartsLinks(); hideLoading(); }
+    init();
+</script>
 </body>
 </html>
